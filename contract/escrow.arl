@@ -1,65 +1,60 @@
-archetype escrow_simple
+archetype escrow
 
-constant buyer : role  = @tz1bfVgcJC4ukaQSHUe1EbrUd5SekXeP9CWk
+/* Roles */
+constant seller       : role = @tz1
+constant buyer        : role = @tz1
+constant taxcollector : role = @tz1
 
-constant seller : role = @tz1Lc2qBKEWCBeDU8npG6zCeCqpmaegRi6Jg
+/* price */
+constant price     : tez = 145tz
 
-constant oracle : role = @tz1iawHeddgggn6P5r5jtq2wDRqcJVksGVSa
+/* rates */
+constant taxrate      : rational = 20%
+constant securityrate : rational = 110%
 
-constant price : tez = 10tz
+variable productref : string = "3463466892892836565"
 
-(* action deadline *)
-constant deadline : date = 2019-06-01T00:00:00Z
+(* escrow deadline *)
+constant deadline : date = now + 1d
 
-(* state machine *)
+(* states *)
 states =
  | Created initial
  | Aborted
  | Funded
- | Verified
+ | InTransit
  | Completed
 
-transition abort () {
-  called by seller
-  from any when { now > deadline }
+transition abortCreated () {
+  called by buyer
+  from Created
   to Aborted
 }
 
+transition abortFunded () {
+  called by buyer
+  from Funded
+  to Aborted
+}
+
+transition abort () {
+  from any
+  to Aborted when { now > deadline }
+}
+
 transition fund () {
-  called by seller
+  called by buyer
   from Created
-  to WithDeposit when { transferred = price }
-}
-
-transition verify () {
-  called by oracle
-
-  from WithDeposit
+  to Funded when { transferred >= (100% + taxrate + securityrate) * price }
 }
 
 transition complete () {
-  from Created
-  to Confirmed when { balance = price + penalty }
-}
-
-transition complete () {
-  called by oracle
-
-  from Confirmed
-  to Completed when { now < deadline }
+  called by buyer
+  from Funded
+  to Completed
   with effect {
-    transfer price to seller;
-    transfer penalty to seller
-  }
-}
-
-transition cancel () {
-  called by oracle
-
-  from Confirmed
-  to Canceled
-  with effect {
-    transfer penalty to buyer;
-    transfer price to buyer
+    transfer price                  to seller;
+    transfer (taxrate * price)      to taxcollector;
+    transfer (securityrate * price) to buyer;
   }
 }
