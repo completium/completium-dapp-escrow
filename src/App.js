@@ -43,7 +43,7 @@ function PageRouter (props) {
     <ThemeProvider theme={theme}>
       <CssBaseline/>
       <HeaderBar appTitle={appTitle} handleConnect={handleConnect} theme={theme}/>
-      <Footer />
+      <Footer appName={appName}/>
       <SnackMsg open={viewSnack} theme={theme} />
     </ThemeProvider>
   )
