@@ -49,7 +49,7 @@ const CreateEscrow = (props) => {
   return (
     <Grid container direction="row" justify="flex-start" alignItems="center" spacing={2}>
       <Grid item xs={12}>
-        <Typography>Check escrow data below and click on 'Create Escrow:</Typography>
+        <Typography>Check escrow data below and click 'Create Escrow' button below:</Typography>
       </Grid>
       <Grid item xs={labelwidth}>
         <Typography style={{ fontWeight: 'bold' }}>Deadline</Typography>
@@ -101,7 +101,7 @@ const FillAddress = (props) => {
   return (
     <Grid container direction="row" justify="flex-start" alignItems="center" spacing={2}>
       <Grid item xs={12}>
-        <Typography>Fill your address below and click the 'Set Address' button.</Typography>
+        <Typography>Fill your address below and click 'Set Address' button.</Typography>
       </Grid>
       <Grid item xs={7}>
         <TextField id="address-street" label="Street" variant="outlined" color="secondary" size="small" fullWidth/>
@@ -199,7 +199,7 @@ const FundEscrow = (props) => {
   return (
     <Grid container direction="row" justify="flex-start" alignItems="center" spacing={2}>
       <Grid item xs={12}>
-      <Typography>Check funding amounts below and click on 'Fund Escrow:</Typography>
+      <Typography>Check funding amounts below and click 'Fund Escrow' button below:</Typography>
       </Grid>
       <Grid item xs={labelwidth}>
         <Typography style={{ fontWeight: 'bold' }}>Price</Typography>
