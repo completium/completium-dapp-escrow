@@ -13,6 +13,7 @@ import Container from '@material-ui/core/Container';
 import Product from './components/Product';
 import Escrow from './components/Escrow';
 import { EscrowStateProvider } from './components/EscrowState.js';
+import Delivery from './components/Delivery.js';
 
 function App() {
   return (
@@ -75,6 +76,7 @@ function PageRouter (props) {
       </Container>
       <Footer appName={appName}/>
       <SnackMsg open={viewSnack} theme={theme} />
+      <Delivery open={true}></Delivery>
     </ThemeProvider>
   )
 }

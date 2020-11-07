@@ -11,7 +11,6 @@ import Card from '@material-ui/core/Card';
 import { seller, taxCollector, price } from '../settings';
 import Grid from '@material-ui/core/Grid';
 import { Divider } from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
 import Alert from '@material-ui/lab/Alert';
 import EscrowPanel from './EscrowPanel';
 import { useEscrowStateContext } from './EscrowState';
@@ -89,48 +88,6 @@ const CreateEscrow = (props) => {
           onClick={handleNext}
         >
           create escrow
-        </Button>
-      </Grid>
-    </Grid>
-  )
-}
-
-const FillAddress = (props) => {
-  const labelwidth = 3;
-  const datawidth  = 9;
-  return (
-    <Grid container direction="row" justify="flex-start" alignItems="center" spacing={2}>
-      <Grid item xs={12}>
-        <Typography>Fill your address below and click 'Set Address' button.</Typography>
-      </Grid>
-      <Grid item xs={7}>
-        <TextField id="address-street" label="Street" variant="outlined" color="secondary" size="small" fullWidth/>
-      </Grid>
-      <Grid item xs={5}/>
-      <Grid item xs={3}>
-        <TextField id="address-city" label="City" variant="outlined" color="secondary" size="small"/>
-      </Grid>
-      <Grid item xs={2}>
-        <TextField id="address-state" label="State" variant="outlined" color="secondary" size="small"/>
-      </Grid>
-      <Grid item xs={2}>
-        <TextField id="address-zip" label="Zip" variant="outlined" color="secondary" size="small"/>
-      </Grid>
-      <Grid item xs={5}/>
-      <Grid item xs={3}>
-        <TextField id="address-county" label="County" variant="outlined" color="secondary" size="small"/>
-      </Grid>
-      <Grid item xs={4}>
-        <TextField id="address-country" label="Country" variant="outlined" color="secondary" size="small" fullWidth/>
-      </Grid>
-      <Grid item xs={12}>
-        <Button
-          color='secondary'
-          variant='contained'
-          disableElevation
-          onClick={props.handleNext}
-        >
-          set address
         </Button>
       </Grid>
     </Grid>
@@ -242,22 +199,6 @@ const FundEscrow = (props) => {
       </Grid>
     </Grid>
   )
-}
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return `Check escrow data below and click on 'Create Escrow'`;
-    case 1:
-      return 'An ad group contains one or more ads which target a shared set of keywords.';
-    case 2:
-      return `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`;
-    default:
-      return 'Unknown step';
-  }
 }
 
 function StepComponent(props) {
