@@ -1,9 +1,9 @@
 archetype escrow
 
 /* Roles */
-variable seller       : role = @tz1
-variable buyer        : role = @tz2
-variable taxcollector : role = @tz3
+variable seller       : role = @tz1Lc2qBKEWCBeDU8npG6zCeCqpmaegRi6Jg
+variable buyer        : role = @tz1Lc2qBKEWCBeDU8npG6zCeCqpmaegRi6Jg
+variable taxcollector : role = @tz1Lc2qBKEWCBeDU8npG6zCeCqpmaegRi6Jg
 
 /* price */
 variable price     : tez = 0tz
