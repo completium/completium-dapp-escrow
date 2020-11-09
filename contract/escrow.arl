@@ -1,18 +1,16 @@
 archetype escrow
 
 /* Roles */
-constant seller       : role = @tz1
-constant buyer        : role = @tz1
-constant taxcollector : role = @tz1
+variable seller       : role = @tz1
+variable buyer        : role = @tz2
+variable taxcollector : role = @tz3
 
 /* price */
-constant price     : tez = 145tz
+variable price     : tez = 0tz
 
 /* rates */
 constant taxrate      : rational = 20%
 constant securityrate : rational = 110%
-
-variable productref : string = "3463466892892836565"
 
 (* escrow deadline *)
 constant deadline : date = now + 1d

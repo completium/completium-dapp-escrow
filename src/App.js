@@ -4,8 +4,8 @@ import HeaderBar from './components/HeaderBar';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { DAppProvider, useConnect } from './dapp.js';
+/* import useMediaQuery from '@material-ui/core/useMediaQuery';
+ */import { DAppProvider, useConnect } from './dapp.js';
 import SnackMsg from './components/SnackMsg';
 import './App.css';
 import Footer from './components/Footer';
@@ -30,6 +30,7 @@ function App() {
 function PageRouter (props) {
   const [viewSnack, setViewSnack] = React.useState(false);
   const prefersDarkMode = false; /* useMediaQuery('(prefers-color-scheme: dark)'); */
+  var connect = useConnect();
   const theme = React.useMemo(
     () =>
       createMuiTheme({
@@ -59,7 +60,13 @@ function PageRouter (props) {
       }),
     [prefersDarkMode],
   );
-  const handleConnect = () => {}
+  const handleConnect = React.useCallback(async () => {
+    try {
+      await connect(network);
+    } catch (err) {
+      alert(err.message);
+    };
+  }, [connect]);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline/>

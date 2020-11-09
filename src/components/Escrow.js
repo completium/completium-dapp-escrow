@@ -14,7 +14,9 @@ import { Divider } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import EscrowPanel from './EscrowPanel';
 import { useEscrowStateContext } from './EscrowState';
+import { useTezos, useAccountPkh } from '../dapp';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import EscrowContractCode from '../contract';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,12 +40,35 @@ function getSteps() {
 }
 
 const CreateEscrow = (props) => {
+  const tezos = useTezos();
   const labelwidth = 3;
   const datawidth  = 9;
   const { setAddress } = useEscrowStateContext();
+  var account = useAccountPkh();
   const handleNext = () => {
-    setAddress("KT1CSYNJ6dFcnsV4QJ6HnBFtdif8LJGPQiDM");
-    props.handleNext();
+    tezos.wallet.originate({
+      code: EscrowContractCode,
+      storage: {
+        stored_counter: 0,
+        threshold: 1,
+        keys: ['edpkuLxx9PQD8fZ45eUzrK3BhfDZJHhBuK4Zi49DcEGANwd2rpX82t']
+      }
+      /* storage: {
+        seller       : seller,
+        buyer        : account,
+        taxcollector : taxCollector,
+        price        : price,
+        _state       : "0"
+      } */
+    }).send()
+    .then(originationOp => {
+      console.log(`Waiting for confirmation of origination...`);
+      return originationOp.contract()
+    }).then (contract => {
+      console.log(`Origination completed for ${contract.address}.`);
+      setAddress(contract.address);
+      props.handleNext();
+    }).catch(error => console.log(`Error: ${JSON.stringify(error, null, 2)}`));
   }
   return (
     <Grid container direction="row" justify="flex-start" alignItems="center" spacing={2}>
@@ -51,10 +76,18 @@ const CreateEscrow = (props) => {
         <Typography>Check escrow data below and click 'Create Escrow' button below:</Typography>
       </Grid>
       <Grid item xs={labelwidth}>
-        <Typography style={{ fontWeight: 'bold' }}>Deadline</Typography>
+        <Typography style={{ fontWeight: 'bold' }}>Buyer (yourself)</Typography>
       </Grid>
       <Grid item xs={datawidth}>
-        <Typography>{(new Date()).toLocaleDateString()}</Typography>
+      { (account === null) ? (
+        <Typography color='textSecondary'>
+          (Connect to wallet)
+        </Typography>
+      ) : (
+        <Typography style={{ fontFamily: 'Courier Prime, monospace' }}>
+          { account }
+        </Typography>
+      )}
       </Grid>
       <Grid item xs={labelwidth}>
         <Typography style={{ fontWeight: 'bold' }}>Seller</Typography>
@@ -80,12 +113,19 @@ const CreateEscrow = (props) => {
       <Grid item xs={datawidth}>
         <Typography>110% ({(1.1 * price).toFixed(2).toString()}ꜩ)</Typography>
       </Grid>
+      <Grid item xs={labelwidth}>
+        <Typography style={{ fontWeight: 'bold' }}>Deadline</Typography>
+      </Grid>
+      <Grid item xs={datawidth}>
+        <Typography>{(new Date()).toLocaleDateString()}</Typography>
+      </Grid>
       <Grid item>
         <Button
           color='secondary'
           variant='contained'
           disableElevation
           onClick={handleNext}
+          disabled={ account === null }
         >
           create escrow
         </Button>
