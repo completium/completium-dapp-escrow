@@ -48,18 +48,18 @@ const CreateEscrow = (props) => {
   const handleNext = () => {
     tezos.wallet.originate({
       code: EscrowContractCode,
+      // storage: {
+      //   stored_counter: 0,
+      //   threshold: 1,
+      //   keys: ['edpkuLxx9PQD8fZ45eUzrK3BhfDZJHhBuK4Zi49DcEGANwd2rpX82t']
+      // }
       storage: {
-        stored_counter: 0,
-        threshold: 1,
-        keys: ['edpkuLxx9PQD8fZ45eUzrK3BhfDZJHhBuK4Zi49DcEGANwd2rpX82t']
-      }
-      /* storage: {
         seller       : seller,
         buyer        : account,
         taxcollector : taxCollector,
         price        : price,
         _state       : "0"
-      } */
+      }
     }).send()
     .then(originationOp => {
       console.log(`Waiting for confirmation of origination...`);
