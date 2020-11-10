@@ -21,12 +21,14 @@ const EscrowStatus = (props) => {
           <Typography>Escrow address:</Typography>
         </Grid>
         <Grid item xs={5}>
+          <a style={{ textDecoration: 'none' }} href={"https://better-call.dev/carthagenet/"+ escrowState.address +"/operations"} target="_blank">
           <Chip
             label={escrowState.address}
             color="secondary"
             clickable
             variant="outlined"
           />
+          </a>
         </Grid>
         <Grid item xs={1}>
           <Typography>Balance:</Typography>
