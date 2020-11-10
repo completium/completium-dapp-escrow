@@ -17,6 +17,7 @@ import { useEscrowStateContext } from './EscrowState';
 import { useTezos, useAccountPkh } from '../dapp';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import EscrowContractCode from '../contract';
+import { UnitValue } from '@taquito/taquito';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,26 +49,22 @@ const CreateEscrow = (props) => {
   const handleNext = () => {
     tezos.wallet.originate({
       code: EscrowContractCode,
-      // storage: {
-      //   stored_counter: 0,
-      //   threshold: 1,
-      //   keys: ['edpkuLxx9PQD8fZ45eUzrK3BhfDZJHhBuK4Zi49DcEGANwd2rpX82t']
-      // }
       storage: {
         seller       : seller,
         buyer        : account,
         taxcollector : taxCollector,
-        price        : price,
+        price        : (parseInt(price)*1000000).toString(),
         _state       : "0"
       }
-    }).send()
-    .then(originationOp => {
+    }).send().then(op => {
       console.log(`Waiting for confirmation of origination...`);
-      return originationOp.contract()
+      props.openSnack();
+      return op.contract()
     }).then (contract => {
-      console.log(`Origination completed for ${contract.address}.`);
+      props.closeSnack();
       setAddress(contract.address);
       props.handleNext();
+      console.log(`Origination completed for ${contract.address}.`);
     }).catch(error => console.log(`Error: ${JSON.stringify(error, null, 2)}`));
   }
   return (
@@ -135,10 +132,20 @@ const CreateEscrow = (props) => {
 }
 
 const Transfer = (props) => {
-  const { setBalance } = useEscrowStateContext();
+  const { escrowState, setBalance } = useEscrowStateContext();
+  const tezos = useTezos();
+  console.log(`address: ${escrowState.address}`);
   const handleNext = () => {
-    setBalance (0);
-    props.handleNext();
+    tezos.wallet.at(escrowState.address).then(contract => {
+      contract.methods.complete(UnitValue).send().then(op => {
+        props.openSnack();
+        op.receipt().then(() => {
+          props.closeSnack();
+          setBalance(0);
+          props.handleNext();
+        })
+      })
+    });
   }
   return (
     <Grid container direction="row" justify="flex-start" alignItems="center" spacing={2}>
@@ -188,10 +195,19 @@ const FundEscrow = (props) => {
   const tax = (0.2 * price);
   const total = 1 * price + 1 * securityDeposit + 1 * tax;
   console.log(`total : ${total}`);
-  const { setBalance } = useEscrowStateContext();
+  const { escrowState, setBalance } = useEscrowStateContext();
+  const tezos = useTezos();
   const handleNext = () => {
-    setBalance (total.toString());
-    props.handleNext();
+    tezos.wallet.at(escrowState.address).then(contract => {
+      contract.methods.fund(UnitValue).send({ amount: total.toString() }).then(op => {
+        props.openSnack();
+        op.receipt().then(() => {
+          props.closeSnack();
+          setBalance(total.toString());
+          props.handleNext();
+        })
+      })
+    });
   }
   return (
     <Grid container direction="row" justify="flex-start" alignItems="center" spacing={2}>
@@ -244,11 +260,11 @@ const FundEscrow = (props) => {
 function StepComponent(props) {
   switch (props.index) {
     case 0:
-      return <CreateEscrow handleNext={props.handleNext} />
+      return <CreateEscrow handleNext={props.handleNext} openSnack={props.openSnack} closeSnack={props.closeSnack}/>
     case 1:
-      return <FundEscrow handleNext={props.handleNext} />
+      return <FundEscrow handleNext={props.handleNext} openSnack={props.openSnack} closeSnack={props.closeSnack}/>
     case 2:
-      return <Transfer handleNext={props.handleNext} />
+      return <Transfer handleNext={props.handleNext} openSnack={props.openSnack} closeSnack={props.closeSnack}/>
     default:
       return (
         <div></div>
@@ -256,7 +272,7 @@ function StepComponent(props) {
   }
 }
 
-export default function Escrow() {
+export default function Escrow(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const { setAddress } = useEscrowStateContext();
@@ -290,7 +306,10 @@ export default function Escrow() {
                 steps={steps}
                 handleBack={handleBack}
                 handleNext={handleNext}
-                classes={classes}>
+                classes={classes}
+                openSnack={props.openSnack}
+                closeSnack={props.closeSnack}
+              >
               </StepComponent>
             </StepContent>
           </Step>

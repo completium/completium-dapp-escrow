@@ -67,6 +67,12 @@ function PageRouter (props) {
       alert(err.message);
     };
   }, [connect]);
+  const openSnack = () => {
+    setViewSnack(true);
+  }
+  const closeSnack = () => {
+    setViewSnack(false);
+  }
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline/>
@@ -77,7 +83,7 @@ function PageRouter (props) {
             <Product />
           </Grid>
           <Grid item style={{ width: '100%' }}>
-            <Escrow />
+            <Escrow openSnack={openSnack} closeSnack={closeSnack}/>
           </Grid>
         </Grid>
       </Container>
