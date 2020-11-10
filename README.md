@@ -1,6 +1,6 @@
 Escrow
 =================
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/edukera/escrow)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/edukera/completium-dapp-escrow)
 
 ## Getting Started with Create React App
 
