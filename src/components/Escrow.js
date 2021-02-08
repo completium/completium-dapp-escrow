@@ -47,25 +47,10 @@ const CreateEscrow = (props) => {
   const { setAddress } = useEscrowStateContext();
   var account = useAccountPkh();
   const handleNext = () => {
-    tezos.wallet.originate({
-      code: EscrowContractCode,
-      storage: {
-        seller       : seller,
-        buyer        : account,
-        taxcollector : taxCollector,
-        price        : (parseInt(price)*1000000).toString(),
-        _state       : "0"
-      }
-    }).send().then(op => {
-      console.log(`Waiting for confirmation of origination...`);
-      props.openSnack();
-      return op.contract()
-    }).then (contract => {
-      props.closeSnack();
-      setAddress(contract.address);
-      props.handleNext();
-      console.log(`Origination completed for ${contract.address}.`);
-    }).catch(error => console.log(`Error: ${JSON.stringify(error, null, 2)}`));
+    ///////////////////////////////////////////////////////////////////////////
+    // FIX ME
+    // Origination 'contract'
+    ///////////////////////////////////////////////////////////////////////////
   }
   return (
     <Grid container direction="row" justify="flex-start" alignItems="center" spacing={2}>
@@ -136,16 +121,10 @@ const Transfer = (props) => {
   const tezos = useTezos();
   console.log(`address: ${escrowState.address}`);
   const handleNext = () => {
-    tezos.wallet.at(escrowState.address).then(contract => {
-      contract.methods.complete(UnitValue).send().then(op => {
-        props.openSnack();
-        op.receipt().then(() => {
-          props.closeSnack();
-          setBalance(0);
-          props.handleNext();
-        })
-      })
-    });
+    ///////////////////////////////////////////////////////////////////////////
+    // FIX ME
+    // Call 'complete' entry points
+    ///////////////////////////////////////////////////////////////////////////
   }
   return (
     <Grid container direction="row" justify="flex-start" alignItems="center" spacing={2}>
@@ -198,16 +177,10 @@ const FundEscrow = (props) => {
   const { escrowState, setBalance } = useEscrowStateContext();
   const tezos = useTezos();
   const handleNext = () => {
-    tezos.wallet.at(escrowState.address).then(contract => {
-      contract.methods.fund(UnitValue).send({ amount: total.toString() }).then(op => {
-        props.openSnack();
-        op.receipt().then(() => {
-          props.closeSnack();
-          setBalance(total.toString());
-          props.handleNext();
-        })
-      })
-    });
+    ///////////////////////////////////////////////////////////////////////////
+    // FIX ME
+    // Call 'fund' entry point
+    ///////////////////////////////////////////////////////////////////////////
   }
   return (
     <Grid container direction="row" justify="flex-start" alignItems="center" spacing={2}>
