@@ -2,7 +2,7 @@ import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
 import { Typography } from '@material-ui/core';
 import { useEscrowStateContext } from './EscrowState';
-import { network } from '../settings';
+import { bcdUrl } from '../settings';
 
 const EscrowStatus = (props) => {
   const handleClick = () => {};
@@ -22,7 +22,7 @@ const EscrowStatus = (props) => {
           <Typography>Escrow address:</Typography>
         </Grid>
         <Grid item xs={5}>
-          <a style={{ textDecoration: 'none' }} href={"https://better-call.dev/" + network + "/"+ escrowState.address +"/operations"} target="_blank">
+          <a style={{ textDecoration: 'none' }} href={bcdUrl + "/"+ escrowState.address +"/operations"} target="_blank">
           <Chip
             label={escrowState.address}
             color="secondary"
