@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/completium-dapp-escrow/static/css/main.9c72e34c.chunk.css",
-    "main.js": "/completium-dapp-escrow/static/js/main.2b361ba2.chunk.js",
-    "main.js.map": "/completium-dapp-escrow/static/js/main.2b361ba2.chunk.js.map",
+    "main.js": "/completium-dapp-escrow/static/js/main.c4a968c4.chunk.js",
+    "main.js.map": "/completium-dapp-escrow/static/js/main.c4a968c4.chunk.js.map",
     "runtime-main.js": "/completium-dapp-escrow/static/js/runtime-main.4be00269.js",
     "runtime-main.js.map": "/completium-dapp-escrow/static/js/runtime-main.4be00269.js.map",
-    "static/js/2.1a8e598e.chunk.js": "/completium-dapp-escrow/static/js/2.1a8e598e.chunk.js",
-    "static/js/2.1a8e598e.chunk.js.map": "/completium-dapp-escrow/static/js/2.1a8e598e.chunk.js.map",
+    "static/js/2.e42e3b00.chunk.js": "/completium-dapp-escrow/static/js/2.e42e3b00.chunk.js",
+    "static/js/2.e42e3b00.chunk.js.map": "/completium-dapp-escrow/static/js/2.e42e3b00.chunk.js.map",
     "static/js/3.46efec57.chunk.js": "/completium-dapp-escrow/static/js/3.46efec57.chunk.js",
     "static/js/3.46efec57.chunk.js.map": "/completium-dapp-escrow/static/js/3.46efec57.chunk.js.map",
     "index.html": "/completium-dapp-escrow/index.html",
     "static/css/main.9c72e34c.chunk.css.map": "/completium-dapp-escrow/static/css/main.9c72e34c.chunk.css.map",
-    "static/js/2.1a8e598e.chunk.js.LICENSE.txt": "/completium-dapp-escrow/static/js/2.1a8e598e.chunk.js.LICENSE.txt"
+    "static/js/2.e42e3b00.chunk.js.LICENSE.txt": "/completium-dapp-escrow/static/js/2.e42e3b00.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.4be00269.js",
-    "static/js/2.1a8e598e.chunk.js",
+    "static/js/2.e42e3b00.chunk.js",
     "static/css/main.9c72e34c.chunk.css",
-    "static/js/main.2b361ba2.chunk.js"
+    "static/js/main.c4a968c4.chunk.js"
   ]
 }
