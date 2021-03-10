@@ -16,7 +16,7 @@ import EscrowPanel from './EscrowPanel';
 import { useEscrowStateContext } from './EscrowState';
 import { useTezos, useAccountPkh } from '../dapp';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-import EscrowContractCode from '../contract';
+import { code, getStorage } from '../contract';
 import { UnitValue } from '@taquito/taquito';
 
 const useStyles = makeStyles((theme) => ({
@@ -48,14 +48,13 @@ const CreateEscrow = (props) => {
   var account = useAccountPkh();
   const handleNext = () => {
     tezos.wallet.originate({
-      code: EscrowContractCode,
-      storage: {
-        seller       : seller,
-        buyer        : account,
-        taxcollector : taxCollector,
-        price        : (parseInt(price)*1000000).toString(),
-        _state       : "0"
-      }
+      code: code,
+      init: getStorage(
+        seller,                              // seller
+        account,                             // buyer
+        taxCollector,                        // taxcollector
+        (parseInt(price)*1000000).toString() // price
+      )
     }).send().then(op => {
       console.log(`Waiting for confirmation of origination...`);
       props.openSnack();
