@@ -1,12 +1,11 @@
-archetype escrow
-
-/* Roles */
-variable seller       : role = @tz1MZrh8CvYkp7BfLQMcm6mg5FvL5HRZfACw
-variable buyer        : role = @tz1MZrh8CvYkp7BfLQMcm6mg5FvL5HRZfACw
-variable taxcollector : role = @tz1MZrh8CvYkp7BfLQMcm6mg5FvL5HRZfACw
-
+archetype escrow(
+/* roles */
+seller       : role,
+buyer        : role,
+taxcollector : role,
 /* price */
-variable price     : tez = 0tz
+price        : tez
+)
 
 /* rates */
 constant taxrate      : rational = 20%

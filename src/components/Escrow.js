@@ -16,7 +16,7 @@ import EscrowPanel from './EscrowPanel';
 import { useEscrowStateContext } from './EscrowState';
 import { useTezos, useAccountPkh } from '../dapp';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-import EscrowContractCode from '../contract';
+import { code, getStorage } from '../contract';
 import { UnitValue } from '@taquito/taquito';
 
 const useStyles = makeStyles((theme) => ({
