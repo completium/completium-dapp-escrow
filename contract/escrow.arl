@@ -1,8 +1,8 @@
 archetype escrow(
 /* roles */
-seller       : role,
-buyer        : role,
-taxcollector : role,
+seller       : address,
+buyer        : address,
+taxcollector : address,
 /* price */
 price        : tez
 )
